@@ -2,7 +2,7 @@ export interface IComment {
     id: string;
     comment: string;
     idUser: number;
-    rate: number
+    rate: number;
     date: number;
 }
 
