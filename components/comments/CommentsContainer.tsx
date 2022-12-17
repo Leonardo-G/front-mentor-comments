@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { FC } from 'react'
 
 import { Comment } from './Comment'
 
 import { commentsDB } from '../../db/comment'
 import { FlexColumn } from '../../styled/globals/globals'
 
-export const CommentsContainer = () => {
+interface Props {
+    reply?: boolean;
+}
+
+export const CommentsContainer: FC<Props> = ({ reply }) => {
 
     return (
         <FlexColumn>

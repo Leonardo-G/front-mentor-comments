@@ -10,5 +10,15 @@ export const userDB: IUser[] = [
         id: 2,
         urlImage: "/user/image-maxblagun.webp",
         user: "maxblagun"
+    },
+    {
+        id: 3,
+        urlImage: "/user/image-ramsesmiron.webp",
+        user: "ramsesmiron"
+    },
+    {
+        id: 4,
+        urlImage: "/user/image-juliusomo.webp",
+        user: "juliusomo"
     }
 ] 
