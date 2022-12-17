@@ -1,11 +1,12 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useContext } from 'react'
 
 import { faPlus, faMinus, faReply, faTrash, faPen } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { ImageCircle } from '../image/ImageCircle';
-import { userDB } from '../../db/user';
+import { Replys } from './Replys';
 
+import { StateContext } from '../../context/StateContext';
 import { IComment, IReply } from '../../interface/comment';
 import { 
     Background,
@@ -16,13 +17,10 @@ import {
     Icon, 
     Text 
 } from '../../styled/globals/globals';
-import { Replys } from './Replys';
-import { repliesDB } from '../../db/reply';
 
 export const Comment: FC<IComment | IReply> = ({ comment, date, idUser, rate, id }) => {
 
-    const [user, setUser] = useState( userDB.filter( u => u.id === idUser )[0] );
-    const [replies, setReplies] = useState( repliesDB.filter( r => r.idComment === id) );
+    const { user, replies } = useContext( StateContext );
 
     return (
         <>
@@ -56,7 +54,7 @@ export const Comment: FC<IComment | IReply> = ({ comment, date, idUser, rate, id
                             </FlexRow>
                             
                             {
-                                idUser !== 4 
+                                idUser !== user.id
                                 ?
                                     <Box>
                                         <Icon color='#5357B6' size={ 14 } flex hover='#C5C6EF'>
@@ -84,7 +82,7 @@ export const Comment: FC<IComment | IReply> = ({ comment, date, idUser, rate, id
             {
                 replies.length > 0 &&
                 <Replys 
-                    replies={ replies }
+                    replies={ replies.filter( r => r.idComment === id) }
                 />
             }
         </>
