@@ -9,7 +9,7 @@ html{
 }
 
 
-body{
+body, textarea{
   background: #F5F6FA;
   font-family: "Rubik", sans-serif;
 }

@@ -80,7 +80,7 @@ export const Comment: FC<IComment | IReply> = ({ comment, date, idUser, rate, id
                 </FlexRow>
             </CommentGroup>
             {
-                replies.length > 0 &&
+                replies.some( r => r.idComment === id) &&
                 <Replys 
                     replies={ replies.filter( r => r.idComment === id) }
                 />

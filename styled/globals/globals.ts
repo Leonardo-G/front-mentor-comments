@@ -81,3 +81,25 @@ export const Icon = styled.div`
     }
     
 `
+
+export const TextArea = styled.textarea`
+    border: 1px solid #E9EBF0;
+    border-radius: 8px;
+    background: #FFFFFF;
+    outline: none;
+    min-height: 90px;
+    max-height: 90px;
+    padding: 12px 24px;
+    flex: auto;
+    font-size: 16px;
+`
+
+export const Btn = styled.button`
+    background: #5357B6;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 12px 30px;
+    color: #fff;
+    height: 48px;
+    border: none;
+`
