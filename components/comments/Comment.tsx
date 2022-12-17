@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react'
 
-import { faPlus, faMinus, faReply } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faMinus, faReply, faTrash, faPen } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { ImageCircle } from '../image/ImageCircle';
@@ -41,18 +41,41 @@ export const Comment: FC<IComment | IReply> = ({ comment, date, idUser, rate, id
                     </Background>
                     <FlexColumn>
                         <FlexRow center between>
-                            <FlexRow center>
+                            <FlexRow center gap={ 16 }>
                                 <ImageCircle src={ user.urlImage }/>
-                                <Text color='#334253' weight={ 500 }>{ user.user }</Text>
+                                <FlexRow gap={ 8 } center>
+                                    <Text color='#334253' weight={ 500 }>{ user.user }</Text>
+                                    {
+                                        idUser === 4 &&
+                                        <Background color='#5357B6' paddingX={ 6 } radius={ 4 }>
+                                            <Text weight={ 500 } size={ 13 } color='#fff'>you</Text>
+                                        </Background>
+                                    }
+                                </FlexRow>
                                 <Text>{ new Date(date).toLocaleString( "en-AR", { month: "long" }) }</Text>
                             </FlexRow>
                             
-                            <Box>
-                                <Icon color='#5357B6' size={ 14 } flex hover='#C5C6EF'>
-                                    <FontAwesomeIcon icon={ faReply } />
-                                    <Text className='text' color='#5357B6' weight={ 500 }>Reply</Text>
-                                </Icon>
-                            </Box>
+                            {
+                                idUser !== 4 
+                                ?
+                                    <Box>
+                                        <Icon color='#5357B6' size={ 14 } flex hover='#C5C6EF'>
+                                            <FontAwesomeIcon icon={ faReply } />
+                                            <Text className='text' color='#5357B6' weight={ 500 }>Reply</Text>
+                                        </Icon>
+                                    </Box>
+                                :
+                                <FlexRow gap={ 24 }>
+                                    <Icon color='#5357B6' size={ 14 } flex hover='#C5C6EF'>
+                                        <FontAwesomeIcon icon={ faTrash } color="#000"/>
+                                        <Text className='text' color='#ED6368' weight={ 500 }>Delete</Text>
+                                    </Icon>
+                                    <Icon color='#5357B6' size={ 14 } flex hover='#C5C6EF'>
+                                        <FontAwesomeIcon icon={ faPen } color="#000"/>
+                                        <Text className='text' color='#5357B6' weight={ 500 }>Edit</Text>
+                                    </Icon>
+                                </FlexRow>
+                            }
                         </FlexRow>
                         <Text>{ comment }</Text>
                     </FlexColumn>

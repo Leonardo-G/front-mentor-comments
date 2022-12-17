@@ -9,9 +9,9 @@ export const BackgroundLite = styled.div`
 `
 
 export const Background = styled.div`
-    background: ${ ({ color }) => color ? color: "#fff" };
-    border-radius: 10px;
-    padding: ${ ({ padding }: { padding?: number }) => padding ? `${ padding }px` : "0px" };
+    background: ${ ({ color }: { color?: string, radius?: number, padding?: number, paddingX?: number }) => color ? color: "#fff" };
+    border-radius: ${ ({ radius } ) => radius ? `${ radius }px` : "10px" };
+    padding: ${ ({ padding, paddingX }) => padding ? `${ padding }px` : paddingX ? `0px ${ paddingX }px` : "0px" };
     height: 100%;
 `
 
@@ -59,8 +59,8 @@ export const FlexColumn = styled.div`
 ///////////// TEXTOS ////////////////
 export const Text = styled.div`
     font-style: normal;
-    font-weight: ${ ({ weight }: { weight?: 400 | 500 | 700 }) => weight ? weight : 400 };
-    font-size: 16px;
+    font-weight: ${ ({ weight }: { weight?: 400 | 500 | 700, size?: number }) => weight ? weight : 400 };
+    font-size: ${ ({ size }: { size?: number }) => size ? `${ size }px` : "16px" };
     line-height: 24px;
     color: ${ ({ color }) => color ? color : "#67727E"};
 `
