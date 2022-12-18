@@ -1,22 +1,50 @@
-import React, { useContext } from 'react'
-import { StateContext } from '../../context/StateContext'
-import { Background, Circle, FlexRow, TextArea } from '../../styled/globals/globals'
+import React, { ChangeEvent, FC, useContext, useState } from 'react'
+
 import { Button } from '../button/Button'
 import { ImageCircle } from '../image/ImageCircle'
 
-export const Chat = () => {
+import { StateContext } from '../../context/StateContext'
 
-    const { user } = useContext( StateContext );
+import { Background, FlexRow, Position, TextArea } from '../../styled/globals/globals'
+
+interface Props {
+    textButton?: string;
+    padding?: number | undefined;
+    idMessage?: string;
+}
+
+export const Chat: FC<Props> = ({ textButton = "SEND", padding, idMessage = "0" }) => {
+
+    const { user, addReply, newMessage } = useContext( StateContext );
+    const [message, setMessage] = useState("");
+    
+    const changeMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        setMessage( e.currentTarget.value )
+    }
+
 
     return (
-        <Background color='#fff' padding={ 24 }>
-            <FlexRow gap={ 16 }>
-                <ImageCircle src={ user.urlImage }/>
-                <TextArea
-                   placeholder='Add a comment...'
-                />
-                <Button title='SEND'/>
-            </FlexRow>
-        </Background>
+        <Position padding={ padding }>
+            <Background color='#fff' padding={ 24 }>
+                <FlexRow gap={ 16 }>
+                    <ImageCircle src={ user.urlImage }/>
+                    <TextArea
+                        placeholder='Add a comment...'
+                        onChange={ changeMessage }
+                        value={ message }
+                    />
+                    <Button 
+                        title={ textButton }
+                        event={ 
+                            textButton === "SEND" 
+                            ?
+                                () => newMessage( message )
+                            :
+                                () => addReply( message, idMessage ) 
+                        }
+                    />
+                </FlexRow>
+            </Background>
+        </Position>
     )
 }

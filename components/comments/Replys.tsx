@@ -1,9 +1,10 @@
 import React, { FC } from 'react'
 import styled from 'styled-components'
-import { IReply } from '../../interface/comment'
 
-import { FlexColumn, FlexRow } from '../../styled/globals/globals'
 import { Comment } from './Comment'
+
+import { IReply } from '../../interface/comment'
+import { FlexColumn, FlexRow } from '../../styled/globals/globals'
 
 const Line = styled.div`
     background: #E9EBF0;
@@ -24,7 +25,7 @@ export const Replys: FC<Props> = ({ replies }) => {
                     replies.map( c => (
                         <Comment  
                             key={ c.id }
-                            { ...c }
+                            comment = { c }
                         />
                     ))
                 }

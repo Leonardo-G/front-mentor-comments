@@ -1,10 +1,9 @@
 import React, { FC, useContext } from 'react'
 
 import { Comment } from './Comment'
-
-import { commentsDB } from '../../db/comment'
-import { FlexColumn } from '../../styled/globals/globals'
 import { StateContext } from '../../context/StateContext';
+
+import { FlexColumn } from '../../styled/globals/globals'
 
 interface Props {
     reply?: boolean;
@@ -20,7 +19,7 @@ export const CommentsContainer: FC<Props> = ({ reply }) => {
                 comments.map( c => (
                     <Comment  
                         key={ c.id }
-                        { ...c }
+                        comment={ c }
                     />
                 ))
             }

@@ -1,4 +1,4 @@
-import React, { FC, useContext } from 'react'
+import React, { FC, useContext, useState } from 'react'
 
 import { faPlus, faMinus, faReply, faTrash, faPen } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -17,10 +17,19 @@ import {
     Icon, 
     Text 
 } from '../../styled/globals/globals';
+import { userDB } from '../../db/user';
+import { Chat } from '../chat/Chat';
 
-export const Comment: FC<IComment | IReply> = ({ comment, date, idUser, rate, id }) => {
+interface Props {
+    comment: IComment | IReply
+}
 
-    const { user, replies } = useContext( StateContext );
+export const Comment: FC<Props> = ({comment: { comment, date, idUser, rate, id, idComment = null }  }) => {
+
+    const { user, replies, addReply } = useContext( StateContext );
+    const [users, setUsers] = useState( userDB.filter( u => u.id === idUser )[0] );
+    const [isReply, setIsReply] = useState(false);
+
 
     return (
         <>
@@ -40,9 +49,9 @@ export const Comment: FC<IComment | IReply> = ({ comment, date, idUser, rate, id
                     <FlexColumn>
                         <FlexRow center between>
                             <FlexRow center gap={ 16 }>
-                                <ImageCircle src={ user.urlImage }/>
+                                <ImageCircle src={ users.urlImage }/>
                                 <FlexRow gap={ 8 } center>
-                                    <Text color='#334253' weight={ 500 }>{ user.user }</Text>
+                                    <Text color='#334253' weight={ 500 }>{ users.user }</Text>
                                     {
                                         idUser === 4 &&
                                         <Background color='#5357B6' paddingX={ 6 } radius={ 4 }>
@@ -56,7 +65,9 @@ export const Comment: FC<IComment | IReply> = ({ comment, date, idUser, rate, id
                             {
                                 idUser !== user.id
                                 ?
-                                    <Box>
+                                    <Box
+                                        onClick={ () => setIsReply( !isReply ) }
+                                    >
                                         <Icon color='#5357B6' size={ 14 } flex hover='#C5C6EF'>
                                             <FontAwesomeIcon icon={ faReply } />
                                             <Text className='text' color='#5357B6' weight={ 500 }>Reply</Text>
@@ -80,9 +91,17 @@ export const Comment: FC<IComment | IReply> = ({ comment, date, idUser, rate, id
                 </FlexRow>
             </CommentGroup>
             {
-                replies.some( r => r.idComment === id) &&
+                replies.some( r => r.idComment === id ) &&
                 <Replys 
                     replies={ replies.filter( r => r.idComment === id) }
+                />
+            }
+            {
+                isReply &&
+                <Chat 
+                    textButton="REPLY"
+                    padding={ 0 }
+                    idMessage={ idComment ? idComment : id  }
                 />
             }
         </>

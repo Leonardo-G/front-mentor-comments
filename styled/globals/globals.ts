@@ -102,4 +102,9 @@ export const Btn = styled.button`
     color: #fff;
     height: 48px;
     border: none;
+    font-weight: 700;
 `
+
+export const Position = styled.div`
+    padding: ${ ({ padding }: { padding?: number }) => padding >= 0 ? `${ padding }px` : "20px 0 50px 0" };
+` 

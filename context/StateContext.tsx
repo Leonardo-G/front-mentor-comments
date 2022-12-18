@@ -5,6 +5,10 @@ export interface ContextProps {
     comments: IComment[];
     replies: IReply[];
     user: IUser;
+
+    ///METHODS
+    addReply: ( message: string, idComment: string ) => void;
+    newMessage: ( message: string ) => void;
 };
 
 export const StateContext = createContext({} as ContextProps);
