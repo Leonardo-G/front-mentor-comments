@@ -43,6 +43,18 @@ export const StateProvider: FC<Props> = ({ children }) => {
         setComments( [ ...comments, messageBody ] )
     }
 
+    const deleteMessage = ( type: "message" | "reply", id: string ) => {
+        if ( type === "message" ) {
+            setComments( comments.filter( c => c.id !== id ));
+            return;
+        }
+
+        if ( type === "reply" ) {
+            setReplies( replies.filter( c => c.id !== id ));
+            return;
+        }
+    }
+
     return (
         <StateContext.Provider value={{
             comments,
@@ -51,7 +63,8 @@ export const StateProvider: FC<Props> = ({ children }) => {
 
             ////METHODS
             addReply,
-            newMessage
+            newMessage,
+            deleteMessage
         }}
             {...{ children }}
         ></StateContext.Provider>

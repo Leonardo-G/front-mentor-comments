@@ -26,7 +26,7 @@ interface Props {
 
 export const Comment: FC<Props> = ({comment: { comment, date, idUser, rate, id, idComment = null }  }) => {
 
-    const { user, replies, addReply } = useContext( StateContext );
+    const { user, replies, deleteMessage } = useContext( StateContext );
     const [users, setUsers] = useState( userDB.filter( u => u.id === idUser )[0] );
     const [isReply, setIsReply] = useState(false);
 
@@ -74,16 +74,22 @@ export const Comment: FC<Props> = ({comment: { comment, date, idUser, rate, id, 
                                         </Icon>
                                     </Box>
                                 :
-                                <FlexRow gap={ 24 }>
-                                    <Icon color='#5357B6' size={ 14 } flex hover='#C5C6EF'>
-                                        <FontAwesomeIcon icon={ faTrash } color="#000"/>
-                                        <Text className='text' color='#ED6368' weight={ 500 }>Delete</Text>
-                                    </Icon>
-                                    <Icon color='#5357B6' size={ 14 } flex hover='#C5C6EF'>
-                                        <FontAwesomeIcon icon={ faPen } color="#000"/>
-                                        <Text className='text' color='#5357B6' weight={ 500 }>Edit</Text>
-                                    </Icon>
-                                </FlexRow>
+                                    <FlexRow gap={ 24 }>
+                                        <Icon 
+                                            onClick={ () => deleteMessage( idComment ? "reply" : "message", id ) }
+                                            color='#5357B6' 
+                                            size={ 14 } 
+                                            flex 
+                                            hover='#C5C6EF'
+                                        >
+                                            <FontAwesomeIcon icon={ faTrash } color="#000"/>
+                                            <Text className='text' color='#ED6368' weight={ 500 }>Delete</Text>
+                                        </Icon>
+                                        <Icon color='#5357B6' size={ 14 } flex hover='#C5C6EF'>
+                                            <FontAwesomeIcon icon={ faPen } color="#000"/>
+                                            <Text className='text' color='#5357B6' weight={ 500 }>Edit</Text>
+                                        </Icon>
+                                    </FlexRow>
                             }
                         </FlexRow>
                         <Text>{ comment }</Text>

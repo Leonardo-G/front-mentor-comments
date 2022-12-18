@@ -9,6 +9,7 @@ export interface ContextProps {
     ///METHODS
     addReply: ( message: string, idComment: string ) => void;
     newMessage: ( message: string ) => void;
+    deleteMessage: ( type: "message" | "reply", id: string ) => void;
 };
 
 export const StateContext = createContext({} as ContextProps);
