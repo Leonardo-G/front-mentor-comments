@@ -16,6 +16,10 @@ export const StateProvider: FC<Props> = ({ children }) => {
     const [comments, setComments] = useState( commentsDB );
     const [replies, setReplies] = useState( repliesDB );
     const [user, setUser] = useState( userDB.filter( u => u.id === 4 )[0] )
+    const [isReply, setIsReply] = useState({
+        idReply: "",
+        is: false
+    });
 
     const addReply = ( message: string, idComment: string ) => {
         const reply = {
@@ -28,6 +32,10 @@ export const StateProvider: FC<Props> = ({ children }) => {
         }
         
         setReplies([...replies, reply])
+        setIsReply({
+            idReply: "",
+            is: false
+        });
     }
 
     const newMessage = ( message: string ) => {
@@ -60,11 +68,14 @@ export const StateProvider: FC<Props> = ({ children }) => {
             comments,
             replies,
             user,
+            isReply,
+            setReplies,
 
             ////METHODS
             addReply,
             newMessage,
-            deleteMessage
+            deleteMessage,
+            setIsReply
         }}
             {...{ children }}
         ></StateContext.Provider>

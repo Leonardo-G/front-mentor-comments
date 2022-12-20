@@ -1,4 +1,4 @@
-import React, { FC, useContext, useState } from 'react'
+import React, { ChangeEvent, FC, useContext, useState } from 'react'
 
 import { faPlus, faMinus, faReply, faTrash, faPen } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -15,7 +15,8 @@ import {
     FlexColumn, 
     FlexRow, 
     Icon, 
-    Text 
+    Text, 
+    TextArea
 } from '../../styled/globals/globals';
 import { userDB } from '../../db/user';
 import { Chat } from '../chat/Chat';
@@ -26,9 +27,30 @@ interface Props {
 
 export const Comment: FC<Props> = ({comment: { comment, date, idUser, rate, id, idComment = null }  }) => {
 
-    const { user, replies, deleteMessage } = useContext( StateContext );
+    const { user, replies, deleteMessage, setIsReply, isReply, setReplies } = useContext( StateContext );
     const [users, setUsers] = useState( userDB.filter( u => u.id === idUser )[0] );
-    const [isReply, setIsReply] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
+    const [message, setMessage] = useState( comment );
+    
+    const changeMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        setMessage( e.currentTarget.value )
+    }
+
+    const editMessage = () => {
+        const findReply = replies.filter( r => r.id === id )[0];
+        const TotalReplies = replies.filter( r => r.id !== id );
+        const reply = {
+            ...findReply,
+            comment: message
+        }
+
+        setReplies([
+            ...TotalReplies,
+            reply
+        ])
+
+        setIsEdit(false);
+    }
 
 
     return (
@@ -66,7 +88,10 @@ export const Comment: FC<Props> = ({comment: { comment, date, idUser, rate, id, 
                                 idUser !== user.id
                                 ?
                                     <Box
-                                        onClick={ () => setIsReply( !isReply ) }
+                                        onClick={ () => setIsReply({
+                                            idReply: id,
+                                            is: !isReply.is
+                                        }) }
                                     >
                                         <Icon color='#5357B6' size={ 14 } flex hover='#C5C6EF'>
                                             <FontAwesomeIcon icon={ faReply } />
@@ -85,14 +110,30 @@ export const Comment: FC<Props> = ({comment: { comment, date, idUser, rate, id, 
                                             <FontAwesomeIcon icon={ faTrash } color="#000"/>
                                             <Text className='text' color='#ED6368' weight={ 500 }>Delete</Text>
                                         </Icon>
-                                        <Icon color='#5357B6' size={ 14 } flex hover='#C5C6EF'>
+                                        <Icon 
+                                            color='#5357B6' 
+                                            size={ 14 } 
+                                            flex 
+                                            hover='#C5C6EF'
+                                            onClick={ () => isEdit ? editMessage() : setIsEdit( !isEdit ) }
+                                        >
                                             <FontAwesomeIcon icon={ faPen } color="#000"/>
                                             <Text className='text' color='#5357B6' weight={ 500 }>Edit</Text>
                                         </Icon>
                                     </FlexRow>
                             }
                         </FlexRow>
-                        <Text>{ comment }</Text>
+                        {
+                            isEdit 
+                            ? 
+                                <TextArea
+                                    value={ message }
+                                    onChange={ changeMessage }
+                                />
+                            :
+                                <Text>{ comment }</Text>
+
+                        }
                     </FlexColumn>
                 </FlexRow>
             </CommentGroup>
@@ -103,7 +144,7 @@ export const Comment: FC<Props> = ({comment: { comment, date, idUser, rate, id, 
                 />
             }
             {
-                isReply &&
+                isReply.idReply === id && isReply.is &&
                 <Chat 
                     textButton="REPLY"
                     padding={ 0 }

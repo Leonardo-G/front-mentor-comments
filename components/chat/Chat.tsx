@@ -11,12 +11,13 @@ interface Props {
     textButton?: string;
     padding?: number | undefined;
     idMessage?: string;
+    value?: string;
 }
 
-export const Chat: FC<Props> = ({ textButton = "SEND", padding, idMessage = "0" }) => {
+export const Chat: FC<Props> = ({ value = "", textButton = "SEND", padding, idMessage = "0" }) => {
 
     const { user, addReply, newMessage } = useContext( StateContext );
-    const [message, setMessage] = useState("");
+    const [message, setMessage] = useState( value );
     
     const changeMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setMessage( e.currentTarget.value )

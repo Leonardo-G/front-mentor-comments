@@ -107,5 +107,5 @@ export const Btn = styled.button`
 `
 
 export const Position = styled.div`
-    padding: ${ ({ padding }: { padding?: number | undefined }) => padding && padding >= 0 ? `${ padding }px` : "20px 0 50px 0" };
+    padding: ${ ({ padding }: { padding?: number | undefined }) => padding >= 0 ? `${ padding }px` : "20px 0 50px 0" };
 ` 
