@@ -20,3 +20,13 @@ export interface IUser {
     user: string;
     urlImage: string;
 }
+
+export interface IUpvote {
+    idMessage: string;
+    upvote: boolean;
+} 
+
+export interface IDownvote{
+    idMessage: string;
+    downvote: boolean;
+}

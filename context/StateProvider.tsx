@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { commentsDB } from '../db/comment'
 import { repliesDB } from '../db/reply';
 import { userDB } from '../db/user';
+import { IDownvote, IReply, IUpvote } from '../interface/comment';
 
 import { StateContext } from './StateContext'
 
@@ -20,6 +21,8 @@ export const StateProvider: FC<Props> = ({ children }) => {
         idReply: "",
         is: false
     });
+    const [upvote, setUpvote] = useState([] as IUpvote[]);
+    const [downvote, setDownvote] = useState([] as IDownvote[]);
 
     const addReply = ( message: string, idComment: string ) => {
         const reply = {
@@ -63,6 +66,75 @@ export const StateProvider: FC<Props> = ({ children }) => {
         }
     }
 
+    const favoriteMessage = ( id: string, type: "REPLY" | "COMMENT" ) => {
+        const existUpvote = upvote.some( u => u.idMessage === id );
+        const commentUpvote = comments.filter( c => c.id === id )[0] || replies.filter( r => r.id === id )[0];
+        const existDownvote = downvote.some( d => d.idMessage === id );
+
+        if ( existDownvote ){
+            commentUpvote.rate++;
+            setDownvote( downvote.filter( d => d.idMessage !== id ) );
+        }
+
+        if ( existUpvote ){
+            setUpvote( upvote.filter( u => u.idMessage !== id ) );
+            commentUpvote.rate--
+        } else {
+
+            commentUpvote.rate++;
+
+            if ( type === "COMMENT" ){
+                setComments([
+                    commentUpvote,
+                    ...comments.filter( c => c.id !== id )
+                ])
+            }else {
+                setReplies([
+                    commentUpvote as IReply,
+                    ...replies.filter( c => c.id !== id )
+                ])
+            }
+
+            const objUpvote = {
+                idMessage: id,
+                upvote: true
+            }
+
+            setUpvote([ ...upvote, objUpvote ]);
+        }
+    } 
+
+    const removeFavoriteMessage = ( id: string ) => {
+        const existUpvote = upvote.some( u => u.idMessage === id );
+        const commentUpvote = comments.filter( c => c.id === id )[0] || replies.filter( r => r.id === id )[0];
+        const existDownvote = downvote.some( d => d.idMessage === id );
+
+        if ( existUpvote ){
+            commentUpvote.rate--;
+            setUpvote( upvote.filter( u => u.idMessage !== id ) );
+        }
+        
+        if ( existDownvote ){
+            setDownvote( downvote.filter( d => d.idMessage !== id ) );
+            commentUpvote.rate++
+        } else {
+            commentUpvote.rate--;
+
+            setComments([
+                commentUpvote,
+                ...comments.filter( c => c.id !== id )
+            ])
+
+            const objDownvote = {
+                idMessage: id,
+                downvote: true
+            }
+
+            setDownvote([ ...downvote, objDownvote ]);
+        }
+    
+    }
+
     return (
         <StateContext.Provider value={{
             comments,
@@ -70,12 +142,16 @@ export const StateProvider: FC<Props> = ({ children }) => {
             user,
             isReply,
             setReplies,
+            upvote,
+            downvote,
 
             ////METHODS
             addReply,
             newMessage,
             deleteMessage,
-            setIsReply
+            setIsReply,
+            favoriteMessage,
+            removeFavoriteMessage
         }}
             {...{ children }}
         ></StateContext.Provider>

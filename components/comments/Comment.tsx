@@ -27,7 +27,7 @@ interface Props {
 
 export const Comment: FC<Props> = ({comment: { comment, date, idUser, rate, id, idComment = null }  }) => {
 
-    const { user, replies, deleteMessage, setIsReply, isReply, setReplies } = useContext( StateContext );
+    const { user, replies, deleteMessage, setIsReply, isReply, setReplies, favoriteMessage, removeFavoriteMessage, upvote, downvote } = useContext( StateContext );
     const [users, setUsers] = useState( userDB.filter( u => u.id === idUser )[0] );
     const [isEdit, setIsEdit] = useState(false);
     const [message, setMessage] = useState( comment );
@@ -52,6 +52,16 @@ export const Comment: FC<Props> = ({comment: { comment, date, idUser, rate, id, 
         setIsEdit(false);
     }
 
+    const changeFavorite = ( type: "DOWNVOTE" | "UPVOTE" ) => {
+
+        if ( type === "DOWNVOTE" ){
+            removeFavoriteMessage( id );
+
+        } else {
+            favoriteMessage( id );
+        }
+
+    }
 
     return (
         <>
@@ -59,11 +69,21 @@ export const Comment: FC<Props> = ({comment: { comment, date, idUser, rate, id, 
                 <FlexRow>
                     <Background color='#F5F6FA' padding={ 10 } >
                         <FlexColumn gap={ 15 } center>
-                            <Icon color='#C5C6EF' size={ 15 } hover="#5357B6">
+                            <Icon 
+                                color={ upvote.some( u => u.idMessage === id ) ? "red" : '#C5C6EF'} 
+                                size={ 15 } 
+                                hover="#5357B6"
+                                onClick={ () => changeFavorite("UPVOTE") }
+                            >
                                 <FontAwesomeIcon icon={ faPlus } />
                             </Icon>
                             <Text color='#5357B6' weight={ 700 }>{ rate }</Text>
-                            <Icon color='#C5C6EF' size={ 15 } hover="#5357B6">
+                            <Icon 
+                                color={ downvote.some( u => u.idMessage === id ) ? "red" : '#C5C6EF'} 
+                                size={ 15 } 
+                                hover="#5357B6"
+                                onClick={ () => changeFavorite("DOWNVOTE") }    
+                            >
                                 <FontAwesomeIcon icon={ faMinus } />
                             </Icon>
                         </FlexColumn>

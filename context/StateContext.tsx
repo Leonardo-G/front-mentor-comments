@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { IComment, IReply, IUser } from '../interface/comment';
+import { IComment, IDownvote, IReply, IUpvote, IUser } from '../interface/comment';
 
 export interface ContextProps {
     comments: IComment[];
@@ -7,6 +7,8 @@ export interface ContextProps {
     user: IUser;
     isReply: { idReply: string, is: boolean };
     setReplies: React.Dispatch<React.SetStateAction<IReply[]>>;
+    upvote: IUpvote[];
+    downvote: IDownvote[];
 
     ///METHODS
     addReply: ( message: string, idComment: string ) => void;
@@ -16,6 +18,8 @@ export interface ContextProps {
         idReply: string;
         is: boolean;
     }>>
+    favoriteMessage: ( id: string ) => void;
+    removeFavoriteMessage: ( id: string ) => void;
 };
 
 export const StateContext = createContext({} as ContextProps);
