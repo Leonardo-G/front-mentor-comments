@@ -20,13 +20,14 @@ import {
 } from '../../styled/globals/globals';
 import { userDB } from '../../db/user';
 import { Chat } from '../chat/Chat';
+import { userColor } from '../../utils/commentFile';
 
 interface Props {
     comment: IComment | IReply
 }
 
 export const Comment: FC<Props> = ({comment: { comment, date, idUser, rate, id, idComment = null }  }) => {
-
+   
     const { user, replies, deleteMessage, setIsReply, isReply, setReplies, favoriteMessage, removeFavoriteMessage, upvote, downvote } = useContext( StateContext );
     const [users, setUsers] = useState( userDB.filter( u => u.id === idUser )[0] );
     const [isEdit, setIsEdit] = useState(false);
@@ -152,8 +153,16 @@ export const Comment: FC<Props> = ({comment: { comment, date, idUser, rate, id, 
                                     value={ message }
                                     onChange={ changeMessage }
                                 />
-                            :
-                                <Text>{ comment }</Text>
+                            :   idComment && comment.includes("@")
+                                ?
+                                    <Text>
+                                        <span style={{ 
+                                            color: "#5357B6",
+                                            fontWeight: 500
+                                        }}>{ userColor( comment ).user } </span>
+                                        { userColor( comment ).comment }</Text>
+                                : 
+                                    <Text>{ comment }</Text>
 
                         }
                     </FlexColumn>
