@@ -9,10 +9,12 @@ export const BackgroundLite = styled.div`
 `
 
 export const Background = styled.div`
-    background: ${ ({ color }: { color?: string, radius?: number, padding?: number, paddingX?: number }) => color ? color: "#fff" };
+    position: relative;
+    background: ${ ({ color }: { color?: string, radius?: number, padding?: number, paddingX?: number, widthContent?: boolean }) => color ? color: "#fff" };
     border-radius: ${ ({ radius } ) => radius ? `${ radius }px` : "10px" };
     padding: ${ ({ padding, paddingX }) => padding ? `${ padding }px` : paddingX ? `0px ${ paddingX }px` : "0px" };
     height: 100%;
+    width: ${ ({ widthContent }) => widthContent ? "fit-content" : "auto" };
 `
 
 export const Container = styled.div`
@@ -25,6 +27,7 @@ export const CommentGroup = styled.div`
     border-radius: 8px;
     padding: 24px;
     width: 100%;
+    position: relative;
 `
 
 export const Circle = styled.div`
@@ -39,22 +42,39 @@ export const Box = styled.div`
     .color:hover{        
         color: #C5C6EF;
     }
+
+    @media (max-width: 620px){
+        position: absolute;
+        bottom: ${ ({ bottom }: { bottom?: number }) => bottom ? `${ bottom }px` : "30px" };
+        right: 20px;
+    }
 `
 
 /////////// FLEX ////////////
 export const FlexRow = styled.div`
     display: flex;
-    column-gap: ${ ({ gap }: { gap?: number, center?: boolean, between?: boolean }) => gap ? `${ gap }px` : "24px" };
+    column-gap: ${ ({ gap }: { gap?: number, center?: boolean, between?: boolean, responsive?: boolean, gapResponsive?: number }) => gap ? `${ gap }px` : "24px" };
     align-items: ${ ({ center }: { center ?: boolean }) => center ? "center" : ""  };
     justify-content: ${ ({ between }) => between ? "space-between" : "normal" };
+    row-gap: ${ ({ gap }) => gap ? `${ gap }px` : "24px" };
+
+    @media (max-width: 620px){
+        flex-direction: ${ ({ responsive }) => responsive ? "column-reverse" : "row" };
+        column-gap: ${ ({ gap, gapResponsive }) => gapResponsive ? `${ gapResponsive }px` : gap };
+    };
 `
 
 export const FlexColumn = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: ${ ({ center }: { center ?: boolean, gap ?: number }) => center ? "center" : ""  };
+    align-items: ${ ({ center }: { center ?: boolean, gap ?: number, responsive?: boolean, widthResponsive?: number }) => center ? "center" : ""  };
     row-gap: ${ ({ gap }: { gap?: number }) => gap ? `${ gap }px` : "20px" };
+    column-gap: ${ ({ gap }) => gap ? `${ gap }px` : "24px" };
+    @media (max-width: 620px){
+        flex-direction: ${ ({ responsive }) => responsive ? "row" : "column" };
+        width: ${ ({ widthResponsive }) => widthResponsive ? `${ widthResponsive }px` : "auto"}
+    }
 `
 
 ///////////// TEXTOS ////////////////
@@ -64,6 +84,10 @@ export const Text = styled.div`
     font-size: ${ ({ size }: { size?: number }) => size ? `${ size }px` : "16px" };
     line-height: 24px;
     color: ${ ({ color }) => color ? color : "#67727E"};
+
+    @media (max-width: 420px){
+        font-size: 13px;
+    }
 `
 
 ///////////// ICONOS ////////////////

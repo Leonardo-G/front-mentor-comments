@@ -55,20 +55,19 @@ export const Comment: FC<Props> = ({comment: { comment, date, idUser, rate, id, 
     const changeFavorite = ( type: "DOWNVOTE" | "UPVOTE" ) => {
 
         if ( type === "DOWNVOTE" ){
-            removeFavoriteMessage( id, idComment ? "REPLY" : "COMMENT" );
+            removeFavoriteMessage( id, idComment ? "REPLY" : "COMMENT", idUser );
 
         } else {
-            favoriteMessage( id, idComment ? "REPLY" : "COMMENT" );
+            favoriteMessage( id, idComment ? "REPLY" : "COMMENT", idUser );
         }
-
     }
 
     return (
         <>
             <CommentGroup>
-                <FlexRow>
-                    <Background color='#F5F6FA' padding={ 10 } >
-                        <FlexColumn gap={ 15 } center>
+                <FlexRow responsive>
+                    <Background color='#F5F6FA' padding={ 10 } widthContent>
+                        <FlexColumn gap={ 15 } center responsive>
                             <Icon 
                                 color={ upvote.some( u => u.idMessage === id ) ? "red" : '#C5C6EF'} 
                                 size={ 15 } 
@@ -119,28 +118,31 @@ export const Comment: FC<Props> = ({comment: { comment, date, idUser, rate, id, 
                                         </Icon>
                                     </Box>
                                 :
-                                    <FlexRow gap={ 24 }>
-                                        <Icon 
-                                            onClick={ () => deleteMessage( idComment ? "reply" : "message", id ) }
-                                            color='#5357B6' 
-                                            size={ 14 } 
-                                            flex 
-                                            hover='#C5C6EF'
-                                        >
-                                            <FontAwesomeIcon icon={ faTrash } color="#000"/>
-                                            <Text className='text' color='#ED6368' weight={ 500 }>Delete</Text>
-                                        </Icon>
-                                        <Icon 
-                                            color='#5357B6' 
-                                            size={ 14 } 
-                                            flex 
-                                            hover='#C5C6EF'
-                                            onClick={ () => isEdit ? editMessage() : setIsEdit( !isEdit ) }
-                                        >
-                                            <FontAwesomeIcon icon={ faPen } color="#000"/>
-                                            <Text className='text' color='#5357B6' weight={ 500 }>Edit</Text>
-                                        </Icon>
-                                    </FlexRow>
+                                    <Box>
+
+                                        <FlexRow gap={ 24 }>
+                                            <Icon 
+                                                onClick={ () => deleteMessage( idComment ? "reply" : "message", id ) }
+                                                color='#5357B6' 
+                                                size={ 14 } 
+                                                flex 
+                                                hover='#C5C6EF'
+                                            >
+                                                <FontAwesomeIcon icon={ faTrash } color="#000"/>
+                                                <Text className='text' color='#ED6368' weight={ 500 }>Delete</Text>
+                                            </Icon>
+                                            <Icon 
+                                                color='#5357B6' 
+                                                size={ 14 } 
+                                                flex 
+                                                hover='#C5C6EF'
+                                                onClick={ () => isEdit ? editMessage() : setIsEdit( !isEdit ) }
+                                            >
+                                                <FontAwesomeIcon icon={ faPen } color="#000"/>
+                                                <Text className='text' color='#5357B6' weight={ 500 }>Edit</Text>
+                                            </Icon>
+                                        </FlexRow>
+                                    </Box>
                             }
                         </FlexRow>
                         {

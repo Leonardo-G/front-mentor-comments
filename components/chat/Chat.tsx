@@ -5,7 +5,7 @@ import { ImageCircle } from '../image/ImageCircle'
 
 import { StateContext } from '../../context/StateContext'
 
-import { Background, FlexRow, Position, TextArea } from '../../styled/globals/globals'
+import { Background, Box, FlexRow, Position, TextArea } from '../../styled/globals/globals'
 
 interface Props {
     textButton?: string;
@@ -23,27 +23,30 @@ export const Chat: FC<Props> = ({ value = "", textButton = "SEND", padding, idMe
         setMessage( e.currentTarget.value )
     }
 
-
     return (
         <Position padding={ padding }>
             <Background color='#fff' padding={ 24 }>
-                <FlexRow gap={ 16 }>
+                <FlexRow gap={ 16 } responsive>
                     <ImageCircle src={ user.urlImage }/>
                     <TextArea
                         placeholder='Add a comment...'
                         onChange={ changeMessage }
                         value={ message }
                     />
-                    <Button 
-                        title={ textButton }
-                        event={ 
-                            textButton === "SEND" 
-                            ?
-                                () => newMessage( message )
-                            :
-                                () => addReply( message, idMessage ) 
-                        }
-                    />
+                    <Box 
+                        bottom={ 20 }
+                    >
+                        <Button 
+                            title={ textButton }
+                            event={ 
+                                textButton === "SEND" 
+                                ?
+                                    () => newMessage( message )
+                                :
+                                    () => addReply( message, idMessage ) 
+                            }
+                        />
+                    </Box>
                 </FlexRow>
             </Background>
         </Position>

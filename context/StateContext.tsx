@@ -18,8 +18,8 @@ export interface ContextProps {
         idReply: string;
         is: boolean;
     }>>
-    favoriteMessage: ( id: string, type: "REPLY" | "COMMENT" ) => void;
-    removeFavoriteMessage: ( id: string, type: "REPLY" | "COMMENT"  ) => void;
+    favoriteMessage: ( id: string, type: "REPLY" | "COMMENT", userId: number ) => void;
+    removeFavoriteMessage: ( id: string, type: "REPLY" | "COMMENT", userId: number ) => void;
 };
 
 export const StateContext = createContext({} as ContextProps);

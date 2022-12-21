@@ -66,7 +66,9 @@ export const StateProvider: FC<Props> = ({ children }) => {
         }
     }
 
-    const favoriteMessage = ( id: string, type: "REPLY" | "COMMENT" ) => {
+    const favoriteMessage = ( id: string, type: "REPLY" | "COMMENT", userId: number ) => {
+        if ( userId == 4 ) return;
+
         const existUpvote = upvote.some( u => u.idMessage === id );
         const commentUpvote = comments.filter( c => c.id === id )[0] || replies.filter( r => r.id === id )[0];
         const existDownvote = downvote.some( d => d.idMessage === id );
@@ -110,7 +112,9 @@ export const StateProvider: FC<Props> = ({ children }) => {
         }
     } 
 
-    const removeFavoriteMessage = ( id: string, type: "REPLY" | "COMMENT"  ) => {
+    const removeFavoriteMessage = ( id: string, type: "REPLY" | "COMMENT", userId: number ) => {
+        if ( userId == 4 ) return;
+
         const existUpvote = upvote.some( u => u.idMessage === id );
         const commentUpvote = comments.filter( c => c.id === id )[0] || replies.filter( r => r.id === id )[0];
         const existDownvote = downvote.some( d => d.idMessage === id );

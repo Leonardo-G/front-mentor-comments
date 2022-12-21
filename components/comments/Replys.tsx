@@ -10,6 +10,10 @@ const Line = styled.div`
     background: #E9EBF0;
     width: 5px;
     margin-left: 45px;
+
+    @media (max-width: 620px){
+        margin-left: 10px;
+    }
 `
 
 interface Props {
@@ -18,7 +22,7 @@ interface Props {
 
 export const Replys: FC<Props> = ({ replies }) => {
     return (
-        <FlexRow gap={ 42 }>
+        <FlexRow gap={ 42 } gapResponsive={ 10 }>
             <Line></Line>
             <FlexColumn>
                 {

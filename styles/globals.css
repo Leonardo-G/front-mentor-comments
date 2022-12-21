@@ -13,3 +13,13 @@ body, textarea{
   background: #F5F6FA;
   font-family: "Rubik", sans-serif;
 }
+
+body, textarea, p{
+  font-size: 16px;
+}
+
+@media (max-width: 420px){
+  body, textarea, p{
+    font-size: 13px !important;
+  }
+}
