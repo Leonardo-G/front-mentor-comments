@@ -4,6 +4,7 @@ export interface IComment {
     idUser: number;
     rate: number;
     date: number;
+    idComment?: string | null
 }
 
 export interface IReply {
