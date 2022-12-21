@@ -55,10 +55,10 @@ export const Comment: FC<Props> = ({comment: { comment, date, idUser, rate, id, 
     const changeFavorite = ( type: "DOWNVOTE" | "UPVOTE" ) => {
 
         if ( type === "DOWNVOTE" ){
-            removeFavoriteMessage( id );
+            removeFavoriteMessage( id, idComment ? "REPLY" : "COMMENT" );
 
         } else {
-            favoriteMessage( id );
+            favoriteMessage( id, idComment ? "REPLY" : "COMMENT" );
         }
 
     }

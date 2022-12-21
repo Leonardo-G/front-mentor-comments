@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { commentsDB } from '../db/comment'
 import { repliesDB } from '../db/reply';
 import { userDB } from '../db/user';
-import { IDownvote, IReply, IUpvote } from '../interface/comment';
+import { IComment, IDownvote, IReply, IUpvote } from '../interface/comment';
 
 import { StateContext } from './StateContext'
 
@@ -81,18 +81,24 @@ export const StateProvider: FC<Props> = ({ children }) => {
             commentUpvote.rate--
         } else {
 
-            commentUpvote.rate++;
-
             if ( type === "COMMENT" ){
-                setComments([
-                    commentUpvote,
-                    ...comments.filter( c => c.id !== id )
-                ])
+                const newComments = comments.map( c => {
+                    if ( id === c.id ){
+                        c.rate++;
+                    }
+
+                    return c
+                })
+                setComments(newComments)
             }else {
-                setReplies([
-                    commentUpvote as IReply,
-                    ...replies.filter( c => c.id !== id )
-                ])
+                const newReplies = replies.map( r => {
+                    if ( r.id === id ){
+                        r.rate++;
+                    }
+
+                    return r
+                })
+                setReplies(newReplies)
             }
 
             const objUpvote = {
@@ -104,7 +110,7 @@ export const StateProvider: FC<Props> = ({ children }) => {
         }
     } 
 
-    const removeFavoriteMessage = ( id: string ) => {
+    const removeFavoriteMessage = ( id: string, type: "REPLY" | "COMMENT"  ) => {
         const existUpvote = upvote.some( u => u.idMessage === id );
         const commentUpvote = comments.filter( c => c.id === id )[0] || replies.filter( r => r.id === id )[0];
         const existDownvote = downvote.some( d => d.idMessage === id );
@@ -118,18 +124,31 @@ export const StateProvider: FC<Props> = ({ children }) => {
             setDownvote( downvote.filter( d => d.idMessage !== id ) );
             commentUpvote.rate++
         } else {
-            commentUpvote.rate--;
+            if ( type === "COMMENT" ){
+                const newComments = comments.map( c => {
+                    if ( id === c.id ){
+                        c.rate--;
+                    }
 
-            setComments([
-                commentUpvote,
-                ...comments.filter( c => c.id !== id )
-            ])
+                    return c
+                })
+                setComments(newComments)
+            } else {
+                const newReplies = replies.map( r => {
+                    if ( r.id === id ){
+                        r.rate--;
+                    }
+
+                    return r
+                })
+                setReplies(newReplies)
+            }
 
             const objDownvote = {
                 idMessage: id,
                 downvote: true
             }
-
+            
             setDownvote([ ...downvote, objDownvote ]);
         }
     
