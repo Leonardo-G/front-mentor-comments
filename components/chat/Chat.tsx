@@ -24,10 +24,10 @@ export const Chat: FC<Props> = ({ value = "", textButton = "SEND", padding, idMe
     }
 
     return (
-        <Position padding={ padding }>
+        <Position role="rowgroup" padding={ padding }>
             <Background color='#fff' padding={ 24 }>
                 <FlexRow gap={ 16 } responsive>
-                    <ImageCircle src={ user.urlImage }/>
+                    <ImageCircle src={ user.urlImage } role="userImage"/>
                     <TextArea
                         placeholder='Add a comment...'
                         onChange={ changeMessage }

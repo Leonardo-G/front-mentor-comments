@@ -1,16 +1,19 @@
+import Head from 'next/document';
 import React, { FC, ReactNode } from 'react'
+
+import { BackgroundLite, Container } from '../../styled/globals/globals'
 
 interface Props {
     children: ReactNode;
 }
 
-import { BackgroundLite, Container } from '../../styled/globals/globals'
-
 export const LayoutPage:FC<Props> = ({ children }) => {
     
     return (
-        <BackgroundLite>
-            <Container>{ children }</Container>
-        </BackgroundLite>
+        <main>
+            <BackgroundLite>
+                <Container>{ children }</Container>
+            </BackgroundLite>
+        </main>
     )
 }

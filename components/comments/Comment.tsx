@@ -77,7 +77,7 @@ export const Comment: FC<Props> = ({comment: { comment, date, idUser, rate, id, 
                             >
                                 <FontAwesomeIcon icon={ faPlus } />
                             </Icon>
-                            <Text color='#5357B6' weight={ 700 }>{ rate }</Text>
+                            <Text color='#5357B6' weight={ 700 } role="status">{ rate }</Text>
                             <Icon 
                                 color={ downvote.some( u => u.idMessage === id ) ? "red" : '#C5C6EF'} 
                                 size={ 15 } 
@@ -90,7 +90,7 @@ export const Comment: FC<Props> = ({comment: { comment, date, idUser, rate, id, 
                     </Background>
                     <FlexColumn>
                         <FlexRow center between>
-                            <FlexRow center gap={ 16 }>
+                            <FlexRow center gap={ 16 } role="rowgroup">
                                 <ImageCircle src={ users.urlImage }/>
                                 <FlexRow gap={ 8 } center>
                                     <Text color='#334253' weight={ 500 }>{ users.user }</Text>
@@ -115,7 +115,7 @@ export const Comment: FC<Props> = ({comment: { comment, date, idUser, rate, id, 
                                     >
                                         <Icon color='#5357B6' size={ 14 } flex hover='#C5C6EF'>
                                             <FontAwesomeIcon icon={ faReply } />
-                                            <Text className='text' color='#5357B6' weight={ 500 }>Reply</Text>
+                                            <Text className='text' color='#5357B6' weight={ 500 } role="button">Reply</Text>
                                         </Icon>
                                     </Box>
                                 :
@@ -130,7 +130,7 @@ export const Comment: FC<Props> = ({comment: { comment, date, idUser, rate, id, 
                                                 hover='#C5C6EF'
                                             >
                                                 <FontAwesomeIcon icon={ faTrash } color="#000"/>
-                                                <Text className='text' color='#ED6368' weight={ 500 }>Delete</Text>
+                                                <Text role="button" className='text' color='#ED6368' weight={ 500 }>Delete</Text>
                                             </Icon>
                                             <Icon 
                                                 color='#5357B6' 
@@ -140,7 +140,7 @@ export const Comment: FC<Props> = ({comment: { comment, date, idUser, rate, id, 
                                                 onClick={ () => isEdit ? editMessage() : setIsEdit( !isEdit ) }
                                             >
                                                 <FontAwesomeIcon icon={ faPen } color="#000"/>
-                                                <Text className='text' color='#5357B6' weight={ 500 }>Edit</Text>
+                                                <Text role="button" className='text' color='#5357B6' weight={ 500 }>Edit</Text>
                                             </Icon>
                                         </FlexRow>
                                     </Box>
@@ -155,14 +155,14 @@ export const Comment: FC<Props> = ({comment: { comment, date, idUser, rate, id, 
                                 />
                             :   idComment && comment.includes("@")
                                 ?
-                                    <Text>
+                                    <Text role="contentinfo">
                                         <span style={{ 
                                             color: "#5357B6",
                                             fontWeight: 500
                                         }}>{ userColor( comment ).user } </span>
                                         { userColor( comment ).comment }</Text>
                                 : 
-                                    <Text>{ comment }</Text>
+                                    <Text role="contentinfo">{ comment }</Text>
 
                         }
                     </FlexColumn>

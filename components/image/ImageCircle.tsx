@@ -6,11 +6,12 @@ import { Circle } from '../../styled/globals/globals';
 interface Props {
     src: string;
     description?: string;
+    role?: string;
 }
 
-export const ImageCircle: FC<Props> = ({ src, description = "Imagen comment" }) => {
+export const ImageCircle: FC<Props> = ({ src, description = "Imagen comment", role = "contentImage" }) => {
     return (
-        <Circle>
+        <Circle role={ role }>
             <Image 
                 src={ src }
                 fill
